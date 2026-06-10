@@ -1,7 +1,7 @@
-import os
+import io
 import requests
 
-async def generate_code_image(code_text: str, output_path: str = "output.png", theme: str = "monokai"):
+async def generate_code_image(code_text: str, theme: str = "monokai"):
     try:
         api_url = "https://carbonara.solopov.dev/api/cook"
         
@@ -14,13 +14,10 @@ async def generate_code_image(code_text: str, output_path: str = "output.png", t
             "paddingHorizontal": "30px"
         }
         
-        response = requests.post(api_url, json=payload, stream=True)
+        response = requests.post(api_url, json=payload)
         
         if response.status_code == 200:
-            with open(output_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            return output_path
+            return io.BytesIO(response.content)
         else:
             print(f"Renderer API returned status code: {response.status_code}")
             return None
