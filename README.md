@@ -2,8 +2,6 @@
 
 یک ربات تلگرام کاملاً رایگان، سبک و بهینه برای استعلام لحظه‌ای قیمت ارز و طلا در بازار ایران به ریال. این ربات برای اجرا در سرورهای ضعیف (حتی با ۵۱۲ مگابایت رم) بهینه‌سازی شده است.
 
-A lightweight, completely free Telegram bot built with Python (`aiogram`) to track live USD, EUR, 18k Gold, and Silver prices in Iranian Rials (IRR). Highly optimized for low-resource environments (e.g., 512 MB RAM).
-
 ---
 
 ## ✨ ویژگی‌ها | Features
