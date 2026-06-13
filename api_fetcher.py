@@ -8,11 +8,14 @@ async def get_market_data():
     results = {
         "usd": "نامشخص",
         "eur": "نامشخص",
+        "gbp": "نامشخص",
         "gold_18k": "نامشخص",
         "silver_ounce": "نامشخص"
     }
 
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
+    timeout = aiohttp.ClientTimeout(total=10)
+
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=timeout) as session:
         try:
             async with session.get(FIAT_URL) as response:
                 if response.status == 200:
@@ -22,6 +25,8 @@ async def get_market_data():
                         results["usd"] = f"{int(fiat_data['usd']['value']):,} تومان"
                     if "eur" in fiat_data:
                         results["eur"] = f"{int(fiat_data['eur']['value']):,} تومان"
+                    if "gbp" in fiat_data:
+                        results["gbp"] = f"{int(fiat_data['gbp']['value']):,} تومان"
             
             async with session.get(GOLD_URL) as response:
                 if response.status == 200:
@@ -41,12 +46,3 @@ async def get_market_data():
         except Exception as e:
             print(f"🚨 GitHub Fetch Error: {e}")
             return None
-
-if __name__ == "__main__":
-    async def test_api():
-        print("Testing GitHub Raw JSON fetch...")
-        data = await get_market_data()
-        print("\n--- FINAL RESULT ---")
-        print(data)
-        
-    asyncio.run(test_api())

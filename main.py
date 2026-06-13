@@ -26,9 +26,10 @@ def get_main_keyboard():
 async def command_start_handler(message: types.Message) -> None:
     welcome_text = (
         "سلام! من «صراف‌باشی» هستم؛ دستیار سریع و رایگان شما برای چک کردن بازار. 💸\n\n"
-        "اینجا می‌تونی در کسری از ثانیه قیمت لحظه‌ای این موارد رو به **ریال / دلار** ببینی:\n"
-        "🇺🇸 دلار\n"
+        "اینجا می‌تونی در کسری از ثانیه قیمت لحظه‌ای این موارد رو به ریال / دلار ببینی:\n"
+        "🇺🇸 دلار آمریکا\n"
         "🇪🇺 یورو\n"
+        "🇬🇧 پوند انگلیس\n"
         "🥇 طلای ۱۸ عیار\n"
         "🥈 انس نقره\n\n"
         "برای دریافت آخرین قیمت‌ها، روی دکمه زیر کلیک کنید 👇"
@@ -39,22 +40,22 @@ async def command_start_handler(message: types.Message) -> None:
 async def handle_fetch_prices(callback: CallbackQuery):
     await callback.message.edit_text("⏳ در حال دریافت اطلاعات از بازار... لطفا کمی صبر کنید.")
     
-    # Call the API
     data = await get_market_data()
     
     if data:
         result_text = (
-            "📊 <b>قیمت‌های لحظه‌ای بازار:</b>\n\n"
-            f"🇺🇸 <b>دلار آمریکا:</b> {data['usd']}\n"
-            f"🇪🇺 <b>یورو:</b> {data['eur']}\n"
-            f"🥇 <b>طلای 18 عیار:</b> {data['gold_18k']}\n"
-            f"🥈 <b>انس نقره:</b> {data['silver_ounce']}\n\n"
-            "⏱ <i>به‌روزرسانی شده از سرور صراف‌باشی</i>"
+            "📊 قیمت‌های لحظه‌ای بازار:\n\n"
+            f"🇺🇸 دلار آمریکا: {data['usd']}\n"
+            f"🇪🇺 یورو: {data['eur']}\n"
+            f"🇬🇧 پوند انگلیس: {data['gbp']}\n"
+            f"🥇 طلای 18 عیار: {data['gold_18k']}\n"
+            f"🥈 انس نقره: {data['silver_ounce']}\n\n"
+            "⏱ به‌روزرسانی شده از سرور صراف‌باشی"
         )
     else:
         result_text = "❌ متاسفانه در ارتباط با سرور قیمت‌ها مشکلی پیش آمد. لطفا دقایقی دیگر دوباره تلاش کنید."
         
-    await callback.message.edit_text(result_text, reply_markup=get_main_keyboard(), parse_mode="HTML")
+    await callback.message.edit_text(result_text, reply_markup=get_main_keyboard())
 
 # --- Startup ---
 async def main() -> None:
