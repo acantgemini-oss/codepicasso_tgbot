@@ -27,7 +27,7 @@
    git clone [https://github.com/meytiii/sarraf-bashi-bot.git](https://github.com/meytiii/sarraf-bashi-bot.git)
    cd sarraf-bashi-bot
 
-```
+
 
 2. **نصب کتابخانه‌ها | Install dependencies:**
 ```bash
