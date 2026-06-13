@@ -81,7 +81,6 @@ async def language_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # If they don't have a language set, force them to pick one first
     if 'language' not in context.user_data:
         await language_command(update, context)
     else:
@@ -109,7 +108,6 @@ async def handle_code_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     if not code_content:
         return
 
-    # Auto-fallback to English if they bypassed the start command
     if 'language' not in context.user_data:
         context.user_data['language'] = 'en'
 
@@ -136,14 +134,12 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    # Handle Language Changes
     if query.data.startswith("lang_"):
         selected_lang = query.data.split("_")[1]
         context.user_data['language'] = selected_lang
         await query.edit_message_text(get_text(context, "welcome"), parse_mode="Markdown")
         return
 
-    # Handle Theme Changes
     if query.data.startswith("theme_"):
         selected_theme = query.data.split("_")[1]
         context.user_data['theme'] = selected_theme
@@ -219,7 +215,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("⚠️ GITHUB_TOKEN environment variable is not configured on the server.")
             return
 
-        # Prepare payload structure required by GitHub API v3
         gist_payload = {
             "description": "Code Picasso Automated Snippet Shared via Telegram",
             "public": True,

@@ -94,10 +94,8 @@ async def generate_math_image(latex_text: str):
     try:
         print("🧮 [MATH RENDERER] Processing formula...")
         
-        # Combine the styling tags and the math formula into one string
         full_latex_query = r"\dpi{300}\bg_white\huge " + latex_text.strip()
         
-        # URL encode the ENTIRE string safely, using the newer .image endpoint
         safe_query = urllib.parse.quote(full_latex_query)
         url = f"https://latex.codecogs.com/png.image?{safe_query}"
         
