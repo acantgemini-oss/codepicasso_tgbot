@@ -16,7 +16,7 @@ async def get_market_data():
         try:
             async with session.get(FIAT_URL) as response:
                 if response.status == 200:
-                    fiat_data = await response.json()
+                    fiat_data = await response.json(content_type=None)
                     
                     if "usd" in fiat_data:
                         results["usd"] = f"{int(fiat_data['usd']['value']):,} تومان"
@@ -25,16 +25,16 @@ async def get_market_data():
             
             async with session.get(GOLD_URL) as response:
                 if response.status == 200:
-                    gold_data = await response.json()
+                    gold_data = await response.json(content_type=None)
                     
                     if "18ayar" in gold_data:
                         results["gold_18k"] = f"{int(gold_data['18ayar']['value']):,} تومان"
             
             async with session.get(FIAT_URL) as response:
                 if response.status == 200:
-                    fiat_data = await response.json()
+                    fiat_data = await response.json(content_type=None)
                     if "xag" in fiat_data:
-                        results["silver_ounce"] = f"{int(fiat_data['xag']['value']):,} دلار"
+                        results["silver_ounce"] = f"{int(fiat_data['xag']['value']):,} دلار" 
 
             return results
 

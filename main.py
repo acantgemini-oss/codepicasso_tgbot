@@ -6,12 +6,8 @@ from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from dotenv import load_dotenv
 
-# Import the successful function we built
 from api_fetcher import get_market_data
 
-# It is highly recommended to keep the bot token in the .env file!
-# If your .env is still failing, you can hardcode the token here for local testing, 
-# but DO NOT upload a hardcoded token to GitHub.
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
@@ -41,7 +37,6 @@ async def command_start_handler(message: types.Message) -> None:
 
 @dp.callback_query(F.data == "fetch_prices")
 async def handle_fetch_prices(callback: CallbackQuery):
-    # Give the user immediate feedback while the API loads
     await callback.message.edit_text("⏳ در حال دریافت اطلاعات از بازار... لطفا کمی صبر کنید.")
     
     # Call the API
@@ -49,18 +44,17 @@ async def handle_fetch_prices(callback: CallbackQuery):
     
     if data:
         result_text = (
-            "📊 **قیمت‌های لحظه‌ای بازار:**\n\n"
-            f"🇺🇸 **دلار آمریکا:** {data['usd']}\n"
-            f"🇪🇺 **یورو:** {data['eur']}\n"
-            f"🥇 **طلای 18 عیار:** {data['gold_18k']}\n"
-            f"🥈 **انس نقره:** {data['silver_ounce']}\n\n"
-            "⏱ *به‌روزرسانی شده از سرور صراف‌باشی*"
+            "📊 <b>قیمت‌های لحظه‌ای بازار:</b>\n\n"
+            f"🇺🇸 <b>دلار آمریکا:</b> {data['usd']}\n"
+            f"🇪🇺 <b>یورو:</b> {data['eur']}\n"
+            f"🥇 <b>طلای 18 عیار:</b> {data['gold_18k']}\n"
+            f"🥈 <b>انس نقره:</b> {data['silver_ounce']}\n\n"
+            "⏱ <i>به‌روزرسانی شده از سرور صراف‌باشی</i>"
         )
     else:
         result_text = "❌ متاسفانه در ارتباط با سرور قیمت‌ها مشکلی پیش آمد. لطفا دقایقی دیگر دوباره تلاش کنید."
         
-    # Send the result and attach the refresh button again
-    await callback.message.edit_text(result_text, reply_markup=get_main_keyboard())
+    await callback.message.edit_text(result_text, reply_markup=get_main_keyboard(), parse_mode="HTML")
 
 # --- Startup ---
 async def main() -> None:
